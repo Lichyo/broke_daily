@@ -14,6 +14,10 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   int _currentIndex = 1;
+  final _pageList = [
+    const AccountListPage(),
+    const AccountListPage(),
+  ];
 
   @override
   void initState() {
@@ -26,9 +30,8 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       bottomNavigationBar: CurvedNavigationBar(
+        color:  const Color(0xFF121212),
         index: _currentIndex,
-        color: const Color(0xFF000000),
-        backgroundColor: const Color(0xFFD4EBF7),
         items: const [
           Icon(Icons.format_list_bulleted, size: 30),
           Icon(Icons.home_filled, size: 30),
@@ -41,11 +44,11 @@ class _HomePageState extends State<HomePage> {
         },
       ),
       appBar: AppBar(
+        centerTitle: true,
+
         title: const Text('Account'),
       ),
-      body: const AccountListPage(),
+      body: _pageList[_currentIndex],
     );
   }
 }
-
-

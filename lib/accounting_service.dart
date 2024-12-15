@@ -1,9 +1,20 @@
 import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
-import 'event_detail_model.dart';
+import 'model/event_detail_model.dart';
+import 'model/chart_model.dart';
 
 class AccountingService extends ChangeNotifier {
   List<EventDetailModel> allEvents = [];
+
+  List<ChartData> getChartData() {
+    final monthlyExpense = getMonthlyExpense().abs();
+    final monthlyIncome = getMonthlyIncome();
+
+    return [
+      ChartData('Expenses', monthlyExpense, Colors.red),
+      ChartData('Income', monthlyIncome, Colors.green),
+    ];
+  }
 
   void addNewEvent({
     required String title,
@@ -86,7 +97,7 @@ class AccountingService extends ChangeNotifier {
 
   List<String> getDates() {
     final List<String> sortedKeys = getEventsGroupedByDate().keys.toList()
-      ..sort();
+      ..sort((a, b) => b.compareTo(a));
     return sortedKeys;
   }
 }
