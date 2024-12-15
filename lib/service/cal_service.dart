@@ -3,6 +3,9 @@ import 'package:flutter/material.dart';
 
 class CalService extends ChangeNotifier {
   List<String> _temp = [];
+  double _result = 0;
+
+  double get result => _result;
 
   String get tempResult {
     String temp = "";
@@ -22,6 +25,7 @@ class CalService extends ChangeNotifier {
     final result = evaluator.eval(expression, {});
     _temp.clear();
     _temp.add(result.toString());
+    _result = double.parse(result.toString());
     notifyListeners();
   }
 

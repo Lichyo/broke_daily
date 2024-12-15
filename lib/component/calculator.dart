@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
-import 'cal_service.dart';
+import '../service/cal_service.dart';
+import 'package:account/service/accounting_service.dart';
 
 class Calculator extends StatelessWidget {
   const Calculator({super.key});
@@ -17,8 +18,7 @@ class Calculator extends StatelessWidget {
             children: [
               IconButton(
                 onPressed: () {
-                  Provider.of<CalService>(context, listen: false)
-                      .setResult("7");
+                  Provider.of<CalService>(context, listen: false).setResult("7");
                 },
                 icon: const Icon(
                   FontAwesomeIcons.seven,
@@ -28,8 +28,7 @@ class Calculator extends StatelessWidget {
               ),
               IconButton(
                 onPressed: () {
-                  Provider.of<CalService>(context, listen: false)
-                      .setResult("8");
+                  Provider.of<CalService>(context, listen: false).setResult("8");
                 },
                 icon: const Icon(
                   FontAwesomeIcons.eight,
@@ -39,8 +38,7 @@ class Calculator extends StatelessWidget {
               ),
               IconButton(
                 onPressed: () {
-                  Provider.of<CalService>(context, listen: false)
-                      .setResult("9");
+                  Provider.of<CalService>(context, listen: false).setResult("9");
                 },
                 icon: const Icon(
                   FontAwesomeIcons.nine,
@@ -50,8 +48,7 @@ class Calculator extends StatelessWidget {
               ),
               IconButton(
                 onPressed: () {
-                  Provider.of<CalService>(context, listen: false)
-                      .setResult("/");
+                  Provider.of<CalService>(context, listen: false).setResult("/");
                 },
                 icon: const Icon(
                   FontAwesomeIcons.divide,
@@ -76,8 +73,7 @@ class Calculator extends StatelessWidget {
             children: [
               IconButton(
                 onPressed: () {
-                  Provider.of<CalService>(context, listen: false)
-                      .setResult("4");
+                  Provider.of<CalService>(context, listen: false).setResult("4");
                 },
                 icon: const Icon(
                   FontAwesomeIcons.four,
@@ -87,8 +83,7 @@ class Calculator extends StatelessWidget {
               ),
               IconButton(
                 onPressed: () {
-                  Provider.of<CalService>(context, listen: false)
-                      .setResult("5");
+                  Provider.of<CalService>(context, listen: false).setResult("5");
                 },
                 icon: const Icon(
                   FontAwesomeIcons.five,
@@ -98,8 +93,7 @@ class Calculator extends StatelessWidget {
               ),
               IconButton(
                 onPressed: () {
-                  Provider.of<CalService>(context, listen: false)
-                      .setResult("6");
+                  Provider.of<CalService>(context, listen: false).setResult("6");
                 },
                 icon: const Icon(
                   FontAwesomeIcons.six,
@@ -109,8 +103,7 @@ class Calculator extends StatelessWidget {
               ),
               IconButton(
                 onPressed: () {
-                  Provider.of<CalService>(context, listen: false)
-                      .setResult("*");
+                  Provider.of<CalService>(context, listen: false).setResult("*");
                 },
                 icon: const Icon(
                   FontAwesomeIcons.x,
@@ -135,8 +128,7 @@ class Calculator extends StatelessWidget {
             children: [
               IconButton(
                 onPressed: () {
-                  Provider.of<CalService>(context, listen: false)
-                      .setResult("1");
+                  Provider.of<CalService>(context, listen: false).setResult("1");
                 },
                 icon: const Icon(
                   FontAwesomeIcons.one,
@@ -146,8 +138,7 @@ class Calculator extends StatelessWidget {
               ),
               IconButton(
                 onPressed: () {
-                  Provider.of<CalService>(context, listen: false)
-                      .setResult("2");
+                  Provider.of<CalService>(context, listen: false).setResult("2");
                 },
                 icon: const Icon(
                   FontAwesomeIcons.two,
@@ -157,8 +148,7 @@ class Calculator extends StatelessWidget {
               ),
               IconButton(
                 onPressed: () {
-                  Provider.of<CalService>(context, listen: false)
-                      .setResult("3");
+                  Provider.of<CalService>(context, listen: false).setResult("3");
                 },
                 icon: const Icon(
                   FontAwesomeIcons.three,
@@ -168,8 +158,7 @@ class Calculator extends StatelessWidget {
               ),
               IconButton(
                 onPressed: () {
-                  Provider.of<CalService>(context, listen: false)
-                      .setResult("+");
+                  Provider.of<CalService>(context, listen: false).setResult("+");
                 },
                 icon: const Icon(
                   FontAwesomeIcons.plus,
@@ -194,8 +183,7 @@ class Calculator extends StatelessWidget {
             children: [
               IconButton(
                 onPressed: () {
-                  Provider.of<CalService>(context, listen: false)
-                      .setResult("00");
+                  Provider.of<CalService>(context, listen: false).setResult("00");
                 },
                 icon: const Icon(
                   FontAwesomeIcons.zero,
@@ -205,8 +193,7 @@ class Calculator extends StatelessWidget {
               ),
               IconButton(
                 onPressed: () {
-                  Provider.of<CalService>(context, listen: false)
-                      .setResult("0");
+                  Provider.of<CalService>(context, listen: false).setResult("0");
                 },
                 icon: const Icon(
                   FontAwesomeIcons.zero,
@@ -216,8 +203,7 @@ class Calculator extends StatelessWidget {
               ),
               IconButton(
                 onPressed: () {
-                  Provider.of<CalService>(context, listen: false)
-                      .setResult(".");
+                  Provider.of<CalService>(context, listen: false).setResult(".");
                 },
                 icon: const Icon(
                   FontAwesomeIcons.hashnode,
@@ -227,17 +213,20 @@ class Calculator extends StatelessWidget {
               ),
               IconButton(
                 onPressed: () {
-                  Provider.of<CalService>(context, listen: false)
-                      .setResult("-");
+                  Provider.of<CalService>(context, listen: false).setResult("-");
                 },
                 icon: const Icon(
-                  FontAwesomeIcons.subtract,
+                  FontAwesomeIcons.minus,
                   color: Colors.grey,
                   size: 50,
                 ),
               ),
               IconButton(
-                onPressed: () {},
+                onPressed: () {
+                  Provider.of<AccountingService>(context, listen: false)
+                      .addNewEvent(
+                      amount: Provider.of<CalService>(context, listen: false).result);
+                },
                 icon: const Icon(
                   FontAwesomeIcons.check,
                   color: Colors.grey,

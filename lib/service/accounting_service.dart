@@ -1,10 +1,12 @@
 import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
-import 'model/event_detail_model.dart';
-import 'model/chart_model.dart';
+import '../model/event_detail_model.dart';
+import '../model/chart_model.dart';
 
 class AccountingService extends ChangeNotifier {
   List<EventDetailModel> allEvents = [];
+  String _title = "";
+  DateTime _date = DateTime.now();
 
   List<ChartData> getChartData() {
     final monthlyExpense = getMonthlyExpense().abs();
@@ -17,16 +19,14 @@ class AccountingService extends ChangeNotifier {
   }
 
   void addNewEvent({
-    required String title,
     required double amount,
-    required DateTime date,
     String? type,
   }) {
     final newEvent = EventDetailModel(
       type: type ?? "None",
       id: allEvents.length + 1,
-      date: date,
-      title: title,
+      date: _date,
+      title: _title,
       amount: amount,
     );
     allEvents.add(newEvent);
@@ -101,5 +101,13 @@ class AccountingService extends ChangeNotifier {
     final List<String> sortedKeys = getEventsGroupedByDate().keys.toList()
       ..sort((a, b) => b.compareTo(a));
     return sortedKeys;
+  }
+
+  void setTitle(String title) {
+    this._title = title;
+  }
+
+  void setDate(DateTime date) {
+    this._date = date;
   }
 }

@@ -1,5 +1,5 @@
-import 'package:account/accounting_service.dart';
-import 'package:account/cal_service.dart';
+import 'package:account/service/accounting_service.dart';
+import 'package:account/service/cal_service.dart';
 import 'package:flutter/material.dart';
 import 'package:account/view/home_page.dart';
 import 'package:provider/provider.dart';

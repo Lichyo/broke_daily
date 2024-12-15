@@ -1,5 +1,5 @@
-import 'package:account/mock_data.dart';
-import 'package:account/accounting_service.dart';
+import 'package:account/service/mock_data.dart';
+import 'package:account/service/accounting_service.dart';
 import 'package:provider/provider.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';

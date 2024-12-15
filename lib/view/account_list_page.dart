@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:provider/provider.dart';
-import 'package:account/accounting_service.dart';
+import 'package:account/service/accounting_service.dart';
 import '../constant.dart';
 import 'package:fl_chart/fl_chart.dart';
 
