@@ -1,0 +1,253 @@
+import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:provider/provider.dart';
+import 'cal_service.dart';
+
+class Calculator extends StatelessWidget {
+  const Calculator({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(20),
+      child: Column(
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              IconButton(
+                onPressed: () {
+                  Provider.of<CalService>(context, listen: false)
+                      .setResult("7");
+                },
+                icon: const Icon(
+                  FontAwesomeIcons.seven,
+                  color: Colors.grey,
+                  size: 50,
+                ),
+              ),
+              IconButton(
+                onPressed: () {
+                  Provider.of<CalService>(context, listen: false)
+                      .setResult("8");
+                },
+                icon: const Icon(
+                  FontAwesomeIcons.eight,
+                  color: Colors.grey,
+                  size: 50,
+                ),
+              ),
+              IconButton(
+                onPressed: () {
+                  Provider.of<CalService>(context, listen: false)
+                      .setResult("9");
+                },
+                icon: const Icon(
+                  FontAwesomeIcons.nine,
+                  color: Colors.grey,
+                  size: 50,
+                ),
+              ),
+              IconButton(
+                onPressed: () {
+                  Provider.of<CalService>(context, listen: false)
+                      .setResult("/");
+                },
+                icon: const Icon(
+                  FontAwesomeIcons.divide,
+                  color: Colors.grey,
+                  size: 50,
+                ),
+              ),
+              IconButton(
+                onPressed: () {
+                  Provider.of<CalService>(context, listen: false).clear();
+                },
+                icon: const Icon(
+                  FontAwesomeIcons.broom,
+                  color: Colors.red,
+                  size: 50,
+                ),
+              ),
+            ],
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              IconButton(
+                onPressed: () {
+                  Provider.of<CalService>(context, listen: false)
+                      .setResult("4");
+                },
+                icon: const Icon(
+                  FontAwesomeIcons.four,
+                  color: Colors.grey,
+                  size: 50,
+                ),
+              ),
+              IconButton(
+                onPressed: () {
+                  Provider.of<CalService>(context, listen: false)
+                      .setResult("5");
+                },
+                icon: const Icon(
+                  FontAwesomeIcons.five,
+                  color: Colors.grey,
+                  size: 50,
+                ),
+              ),
+              IconButton(
+                onPressed: () {
+                  Provider.of<CalService>(context, listen: false)
+                      .setResult("6");
+                },
+                icon: const Icon(
+                  FontAwesomeIcons.six,
+                  color: Colors.grey,
+                  size: 50,
+                ),
+              ),
+              IconButton(
+                onPressed: () {
+                  Provider.of<CalService>(context, listen: false)
+                      .setResult("*");
+                },
+                icon: const Icon(
+                  FontAwesomeIcons.x,
+                  color: Colors.grey,
+                  size: 50,
+                ),
+              ),
+              IconButton(
+                onPressed: () {
+                  Provider.of<CalService>(context, listen: false).removeLast();
+                },
+                icon: const Icon(
+                  FontAwesomeIcons.arrowLeft,
+                  color: Colors.grey,
+                  size: 50,
+                ),
+              ),
+            ],
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              IconButton(
+                onPressed: () {
+                  Provider.of<CalService>(context, listen: false)
+                      .setResult("1");
+                },
+                icon: const Icon(
+                  FontAwesomeIcons.one,
+                  color: Colors.grey,
+                  size: 50,
+                ),
+              ),
+              IconButton(
+                onPressed: () {
+                  Provider.of<CalService>(context, listen: false)
+                      .setResult("2");
+                },
+                icon: const Icon(
+                  FontAwesomeIcons.two,
+                  color: Colors.grey,
+                  size: 50,
+                ),
+              ),
+              IconButton(
+                onPressed: () {
+                  Provider.of<CalService>(context, listen: false)
+                      .setResult("3");
+                },
+                icon: const Icon(
+                  FontAwesomeIcons.three,
+                  color: Colors.grey,
+                  size: 50,
+                ),
+              ),
+              IconButton(
+                onPressed: () {
+                  Provider.of<CalService>(context, listen: false)
+                      .setResult("+");
+                },
+                icon: const Icon(
+                  FontAwesomeIcons.plus,
+                  color: Colors.grey,
+                  size: 50,
+                ),
+              ),
+              IconButton(
+                onPressed: () {
+                  Provider.of<CalService>(context, listen: false).calculate();
+                },
+                icon: const Icon(
+                  FontAwesomeIcons.equals,
+                  color: Colors.grey,
+                  size: 50,
+                ),
+              ),
+            ],
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              IconButton(
+                onPressed: () {
+                  Provider.of<CalService>(context, listen: false)
+                      .setResult("00");
+                },
+                icon: const Icon(
+                  FontAwesomeIcons.zero,
+                  color: Colors.grey,
+                  size: 50,
+                ),
+              ),
+              IconButton(
+                onPressed: () {
+                  Provider.of<CalService>(context, listen: false)
+                      .setResult("0");
+                },
+                icon: const Icon(
+                  FontAwesomeIcons.zero,
+                  color: Colors.grey,
+                  size: 50,
+                ),
+              ),
+              IconButton(
+                onPressed: () {
+                  Provider.of<CalService>(context, listen: false)
+                      .setResult(".");
+                },
+                icon: const Icon(
+                  FontAwesomeIcons.hashnode,
+                  color: Colors.grey,
+                  size: 50,
+                ),
+              ),
+              IconButton(
+                onPressed: () {
+                  Provider.of<CalService>(context, listen: false)
+                      .setResult("-");
+                },
+                icon: const Icon(
+                  FontAwesomeIcons.subtract,
+                  color: Colors.grey,
+                  size: 50,
+                ),
+              ),
+              IconButton(
+                onPressed: () {},
+                icon: const Icon(
+                  FontAwesomeIcons.check,
+                  color: Colors.grey,
+                  size: 50,
+                ),
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+}

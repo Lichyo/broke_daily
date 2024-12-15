@@ -20,8 +20,10 @@ class AccountingService extends ChangeNotifier {
     required String title,
     required double amount,
     required DateTime date,
+    String? type,
   }) {
     final newEvent = EventDetailModel(
+      type: type ?? "None",
       id: allEvents.length + 1,
       date: date,
       title: title,

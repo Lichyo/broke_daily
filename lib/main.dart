@@ -1,4 +1,5 @@
 import 'package:account/accounting_service.dart';
+import 'package:account/cal_service.dart';
 import 'package:flutter/material.dart';
 import 'package:account/view/home_page.dart';
 import 'package:provider/provider.dart';
@@ -12,8 +13,11 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (context) => AccountingService(),
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (context) => AccountingService()),
+        ChangeNotifierProvider(create: (context) => CalService()),
+      ],
       child: MaterialApp(
         theme: ThemeData.dark(),
         home: const HomePage(),

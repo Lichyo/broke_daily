@@ -4,6 +4,8 @@ import 'package:provider/provider.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:account/view/account_list_page.dart';
+import 'package:account/view/analysis_page.dart';
+import 'package:account/view/calculate_page.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -15,8 +17,9 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   int _currentIndex = 1;
   final _pageList = [
+    const AnalysisPage(),
     const AccountListPage(),
-    const AccountListPage(),
+    CalculatePage(),
   ];
 
   @override
@@ -30,7 +33,7 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       bottomNavigationBar: CurvedNavigationBar(
-        color:  const Color(0xFF121212),
+        color: const Color(0xFF121212),
         index: _currentIndex,
         items: const [
           Icon(Icons.format_list_bulleted, size: 30),
@@ -45,7 +48,6 @@ class _HomePageState extends State<HomePage> {
       ),
       appBar: AppBar(
         centerTitle: true,
-
         title: const Text('Account'),
       ),
       body: _pageList[_currentIndex],
