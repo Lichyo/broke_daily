@@ -1,6 +1,6 @@
 class EventDetailModel {
   final String title;
-  final int id;
+  int? id;
   final double amount;
   final DateTime date;
   final String? type;
@@ -8,8 +8,16 @@ class EventDetailModel {
   EventDetailModel({
     this.type,
     required this.title,
-    required this.id,
+    this.id,
     required this.amount,
     required this.date,
   });
+
+  Map<String, dynamic> toMap() {
+    return {
+      'title': title,
+      'amount': amount.toString(),
+      'date': date.toString(),
+    };
+  }
 }

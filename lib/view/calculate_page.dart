@@ -27,10 +27,16 @@ class _CalculatePageState extends State<CalculatePage> {
             Container(
               margin: const EdgeInsets.only(top: 20, right: 20),
               child: IconButton(
-                onPressed: () {},
-                icon: const Icon(
+                onPressed: () {
+                  Provider.of<CalService>(context, listen: false)
+                      .setMode(CalModes.income);
+                },
+                icon: Icon(
                   FontAwesomeIcons.moneyBill,
-                  color: Colors.green,
+                  color:
+                      Provider.of<CalService>(context).mode == CalModes.income
+                          ? Colors.green
+                          : Colors.grey,
                   size: 50,
                 ),
               ),
@@ -38,10 +44,16 @@ class _CalculatePageState extends State<CalculatePage> {
             Container(
               margin: const EdgeInsets.only(top: 20, left: 20),
               child: IconButton(
-                onPressed: () {},
-                icon: const Icon(
+                onPressed: () {
+                  Provider.of<CalService>(context, listen: false)
+                      .setMode(CalModes.expense);
+                },
+                icon: Icon(
                   FontAwesomeIcons.moneyCheckDollar,
-                  color: Colors.red,
+                  color:
+                      Provider.of<CalService>(context).mode == CalModes.expense
+                          ? Colors.red
+                          : Colors.grey,
                   size: 50,
                 ),
               ),
@@ -51,6 +63,8 @@ class _CalculatePageState extends State<CalculatePage> {
         Padding(
           padding: const EdgeInsets.all(20),
           child: TextField(
+            controller: TextEditingController(
+                text: Provider.of<AccountingService>(context).title),
             decoration: const InputDecoration(
               hintText: 'Title',
             ),
@@ -68,22 +82,34 @@ class _CalculatePageState extends State<CalculatePage> {
             ),
           ),
         ),
-        GestureDetector(
-          onPanEnd: (details) {
-            setState(() {
-              if (details.velocity.pixelsPerSecond.dx > 0) {
-                dt = dt.add(const Duration(days: 1));
-              } else if (details.velocity.pixelsPerSecond.dx < 0) {
-                dt = dt.subtract(const Duration(days: 1));
-              }
-              Provider.of<AccountingService>(context, listen: false)
-                  .setDate(dt);
-            });
-          },
-          child: Text(
-            DateFormat('yyyy-MM-dd').format(dt),
-            style: kSecondTextStyle,
-          ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            IconButton(
+              onPressed: () {
+                setState(() {
+                  dt = dt.subtract(const Duration(days: 1));
+                  Provider.of<AccountingService>(context, listen: false)
+                      .setDate(dt);
+                });
+              },
+              icon: const Icon(Icons.arrow_back_ios),
+            ),
+            Text(
+              DateFormat('yyyy-MM-dd').format(dt),
+              style: kSecondTextStyle,
+            ),
+            IconButton(
+              onPressed: () {
+                setState(() {
+                  dt = dt.add(const Duration(days: 1));
+                  Provider.of<AccountingService>(context, listen: false)
+                      .setDate(dt);
+                });
+              },
+              icon: const Icon(Icons.arrow_forward_ios),
+            ),
+          ],
         ),
         const Calculator(),
       ],

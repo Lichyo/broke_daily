@@ -1,4 +1,3 @@
-import 'package:account/service/mock_data.dart';
 import 'package:account/service/accounting_service.dart';
 import 'package:provider/provider.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
@@ -16,6 +15,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   int _currentIndex = 1;
+  bool loading = true;
   final _pageList = [
     const AnalysisPage(),
     const AccountListPage(),
@@ -24,9 +24,17 @@ class _HomePageState extends State<HomePage> {
 
   @override
   void initState() {
+    // TODO: implement initState
     super.initState();
-    Provider.of<AccountingService>(context, listen: false).allEvents =
-        MockData.mockEvents;
+    initTask();
+  }
+
+  Future<void> initTask() async {
+    await Provider.of<AccountingService>(context, listen: false)
+        .initAccountingService();
+    setState(() {
+      loading = false;
+    });
   }
 
   @override
@@ -50,7 +58,9 @@ class _HomePageState extends State<HomePage> {
         centerTitle: true,
         title: const Text('Account'),
       ),
-      body: _pageList[_currentIndex],
+      body: loading
+          ? const CircularProgressIndicator()
+          : _pageList[_currentIndex],
     );
   }
 }

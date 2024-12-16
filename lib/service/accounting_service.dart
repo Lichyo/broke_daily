@@ -1,12 +1,15 @@
+import 'package:account/service/database_service.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
 import '../model/event_detail_model.dart';
 import '../model/chart_model.dart';
+import 'package:account/constant.dart';
 
 class AccountingService extends ChangeNotifier {
-  List<EventDetailModel> allEvents = [];
-  String _title = "";
+  final DatabaseService databaseService = DatabaseService.instance;
+  String title = "";
   DateTime _date = DateTime.now();
+  List<EventDetailModel> events = [];
 
   List<ChartData> getChartData() {
     final monthlyExpense = getMonthlyExpense().abs();
@@ -18,30 +21,37 @@ class AccountingService extends ChangeNotifier {
     ];
   }
 
-  void addNewEvent({
+  Future<void> addNewEvent({
     required double amount,
+    required CalModes mode,
     String? type,
-  }) {
-    final newEvent = EventDetailModel(
-      type: type ?? "None",
-      id: allEvents.length + 1,
-      date: _date,
-      title: _title,
-      amount: amount,
+  }) async {
+    await databaseService.insert(
+      eventDetailModel: EventDetailModel(
+        title: title,
+        amount: mode == CalModes.income ? amount : -amount,
+        date: _date,
+        type: "None",
+      ),
     );
-    allEvents.add(newEvent);
+    await initAccountingService();
     notifyListeners();
   }
 
-  void deleteEvent({required int id}) {
-    allEvents.removeWhere((element) => element.id == id);
+  Future<void> initAccountingService() async {
+    events = await databaseService.getEvents();
+  }
+
+  Future<void> deleteEvent({required int id}) async {
+    await databaseService.delete(id: id);
+    await initAccountingService();
     notifyListeners();
   }
 
   double getMonthlyExpense() {
     final now = DateTime.now();
     double sum = 0;
-    for (var event in allEvents) {
+    for (var event in events) {
       if (event.date.month == now.month && event.date.year == now.year) {
         if (event.amount > 0) {
           continue;
@@ -56,7 +66,7 @@ class AccountingService extends ChangeNotifier {
   double getMonthlyIncome() {
     final now = DateTime.now();
     double sum = 0;
-    for (var event in allEvents) {
+    for (var event in events) {
       if (event.date.month == now.month && event.date.year == now.year) {
         if (event.amount < 0) {
           continue;
@@ -72,7 +82,7 @@ class AccountingService extends ChangeNotifier {
     final now = DateTime.now();
     final thisMonth = now.month;
     final thisYear = now.year;
-    return allEvents
+    return events
         .where((element) =>
             element.date.month == thisMonth && element.date.year == thisYear)
         .toList();
@@ -85,7 +95,7 @@ class AccountingService extends ChangeNotifier {
   Map<String, List<EventDetailModel>> getEventsGroupedByDate() {
     final eventsByDate = <String, List<EventDetailModel>>{};
 
-    for (var event in allEvents) {
+    for (var event in events) {
       final dateKey = DateFormat('yyyy/MM/dd EEEE').format(event.date);
       if (eventsByDate.containsKey(dateKey)) {
         eventsByDate[dateKey]!.add(event);
@@ -93,7 +103,6 @@ class AccountingService extends ChangeNotifier {
         eventsByDate[dateKey] = [event];
       }
     }
-
     return eventsByDate;
   }
 
@@ -104,10 +113,11 @@ class AccountingService extends ChangeNotifier {
   }
 
   void setTitle(String title) {
-    this._title = title;
+    this.title = title;
+    notifyListeners();
   }
 
   void setDate(DateTime date) {
-    this._date = date;
+    _date = date;
   }
 }

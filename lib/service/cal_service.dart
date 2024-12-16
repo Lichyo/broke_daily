@@ -1,9 +1,11 @@
 import 'package:expressions/expressions.dart';
 import 'package:flutter/material.dart';
+import 'package:account/constant.dart';
 
 class CalService extends ChangeNotifier {
   List<String> _temp = [];
   double _result = 0;
+  CalModes mode = CalModes.income;
 
   double get result => _result;
 
@@ -13,6 +15,11 @@ class CalService extends ChangeNotifier {
       temp += val;
     }
     return temp;
+  }
+
+  void setMode(CalModes mode) {
+    this.mode = mode;
+    notifyListeners();
   }
 
   void calculate() {
@@ -46,3 +53,4 @@ class CalService extends ChangeNotifier {
     }
   }
 }
+

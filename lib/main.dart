@@ -4,7 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:account/view/home_page.dart';
 import 'package:provider/provider.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
   runApp(const MyApp());
 }
 

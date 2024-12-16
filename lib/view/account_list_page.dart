@@ -4,7 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:account/service/accounting_service.dart';
 import '../constant.dart';
 import 'package:fl_chart/fl_chart.dart';
-
+import 'package:intl/intl.dart';
 import '../model/chart_model.dart';
 
 class AccountListPage extends StatelessWidget {
@@ -105,7 +105,6 @@ class AccountListPage extends StatelessWidget {
                   ),
                   child: ListView.builder(
                     shrinkWrap: true,
-                    // physics: const NeverScrollableScrollPhysics(),
                     itemCount: dates.length,
                     itemBuilder: (context, index) {
                       final date = dates[index];
@@ -125,17 +124,65 @@ class AccountListPage extends StatelessWidget {
                             color: Colors.grey,
                           ),
                           ...events.map(
-                            (event) => ListTile(
-                              title: Text(
-                                event.title,
-                                style: kSecondTextStyle,
-                              ),
-                              trailing: Text(
-                                '\$${event.amount}',
-                                style: kSecondTextStyle.copyWith(
-                                  color: event.amount < 0
-                                      ? Colors.red
-                                      : Colors.green,
+                            (event) => GestureDetector(
+                              onLongPress: () {
+                                showDialog(
+                                  context: context,
+                                  builder: (BuildContext context) {
+                                    return AlertDialog(
+                                      title: Text(event.title, style: kPrimaryTextStyle,),
+                                      content: Column(
+                                        mainAxisSize: MainAxisSize.min,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.start,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            'Amount: \$${event.amount}',
+                                            style: kSecondTextStyle,
+                                          ),
+                                          Text(
+                                            'Date: ${DateFormat('yyyy/MM/dd').format(event.date)}',
+                                            style: kSecondTextStyle,
+                                          ),
+                                        ],
+                                      ),
+                                      actions: [
+                                        TextButton(
+                                          onPressed: () {
+                                            Navigator.of(context).pop();
+                                          },
+                                          child: const Text('Cancel'),
+                                        ),
+                                        TextButton(
+                                          onPressed: () async {
+                                            await Provider.of<
+                                                        AccountingService>(
+                                                    context,
+                                                    listen: false)
+                                                .deleteEvent(id: event.id!);
+                                            Navigator.of(context).pop();
+                                          },
+                                          child: const Text('Confirm'),
+                                        ),
+                                      ],
+                                    );
+                                  },
+                                );
+                              },
+                              child: ListTile(
+                                title: Text(
+                                  event.title,
+                                  style: kSecondTextStyle,
+                                ),
+                                trailing: Text(
+                                  '\$${event.amount}',
+                                  style: kSecondTextStyle.copyWith(
+                                    color: event.amount < 0
+                                        ? Colors.red
+                                        : Colors.green,
+                                  ),
                                 ),
                               ),
                             ),
