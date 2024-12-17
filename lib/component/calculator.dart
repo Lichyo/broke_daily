@@ -204,12 +204,12 @@ class Calculator extends StatelessWidget {
                     Icon(
                       FontAwesomeIcons.zero,
                       color: Colors.grey,
-                      size: 30,
+                      size: 25,
                     ),
                     Icon(
                       FontAwesomeIcons.zero,
                       color: Colors.grey,
-                      size: 30,
+                      size: 25,
                     ),
                   ],
                 ),
@@ -231,7 +231,7 @@ class Calculator extends StatelessWidget {
                       .setResult(".");
                 },
                 icon: const Icon(
-                  FontAwesomeIcons.hashnode,
+                  FontAwesomeIcons.solidCircle,
                   color: Colors.grey,
                   size: 50,
                 ),

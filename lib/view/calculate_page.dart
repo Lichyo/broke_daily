@@ -8,7 +8,7 @@ import 'package:provider/provider.dart';
 import 'package:intl/intl.dart';
 
 class CalculatePage extends StatefulWidget {
-  CalculatePage({super.key});
+  const CalculatePage({super.key});
 
   @override
   State<CalculatePage> createState() => _CalculatePageState();
