@@ -21,11 +21,14 @@ class AccountingService extends ChangeNotifier {
     ];
   }
 
-  Future<void> addNewEvent({
+  Future<bool> addNewEvent({
     required double amount,
     required CalModes mode,
     String? type,
   }) async {
+    if (title == "" || amount == 0) {
+      return false;
+    }
     await databaseService.insert(
       eventDetailModel: EventDetailModel(
         title: title,
@@ -36,6 +39,7 @@ class AccountingService extends ChangeNotifier {
     );
     await initAccountingService();
     notifyListeners();
+    return true;
   }
 
   Future<void> initAccountingService() async {

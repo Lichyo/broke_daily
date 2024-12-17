@@ -249,7 +249,7 @@ class Calculator extends StatelessWidget {
               ),
               IconButton(
                 onPressed: () async{
-                  await Provider.of<AccountingService>(context, listen: false).addNewEvent(
+                  final bool result = await Provider.of<AccountingService>(context, listen: false).addNewEvent(
                     amount: Provider.of<CalService>(context, listen: false).result,
                     mode: Provider.of<CalService>(context, listen: false).mode,
                   );
@@ -258,9 +258,15 @@ class Calculator extends StatelessWidget {
                   Provider.of<CalService>(context, listen: false).setMode(CalModes.income);
                   Provider.of<CalService>(context, listen: false).clear();
 
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(content: Text('Event created successfully')),
-                  );
+                  if (result) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(content: Text('Event created successfully')),
+                    );
+                  } else {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(content: Text('Failed to create event')),
+                    );
+                  }
                 },
                 icon: const Icon(
                   FontAwesomeIcons.check,
