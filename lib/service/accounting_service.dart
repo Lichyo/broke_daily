@@ -26,9 +26,6 @@ class AccountingService extends ChangeNotifier {
     required CalModes mode,
     String? type,
   }) async {
-    if (title == "" || amount == 0) {
-      return false;
-    }
     await databaseService.insert(
       eventDetailModel: EventDetailModel(
         title: title,
@@ -118,10 +115,17 @@ class AccountingService extends ChangeNotifier {
 
   void setTitle(String title) {
     this.title = title;
+    print(title);
     notifyListeners();
   }
 
   void setDate(DateTime date) {
     _date = date;
+  }
+
+  void reset() {
+    title = "";
+    _date = DateTime.now();
+    notifyListeners();
   }
 }
