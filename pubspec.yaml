@@ -8,8 +8,6 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-
-
   cupertino_icons: ^1.0.8
   provider: ^6.1.2
   google_fonts: ^6.2.1
@@ -21,6 +19,13 @@ dependencies:
   font_awesome_flutter: ^10.8.0
   expressions: ^0.2.5+2
   sqflite: ^2.4.1
+  flutter_launcher_icons: ^0.14.2
+
+flutter_icons:
+  android: true
+  ios: true
+  image_path: "assets/icon/icon.png"
+
 
 dev_dependencies:
   flutter_test:
@@ -33,4 +38,4 @@ flutter:
 
 
 assets:
-  - images/
+  - assets/icon/icon.pan
