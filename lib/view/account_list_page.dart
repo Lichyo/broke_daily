@@ -184,6 +184,10 @@ class AccountListPage extends StatelessWidget {
                                         : Colors.green,
                                   ),
                                 ),
+                                subtitle: Text(
+                                  event.type.name,
+                                  style: kSecondTextStyle,
+                                ),
                               ),
                             ),
                           ),
