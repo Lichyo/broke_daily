@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:account/constant.dart';
 import 'package:provider/provider.dart';
 import 'package:intl/intl.dart';
+import 'package:account/components/income_type_widget.dart';
+import 'package:account/components/expense_type_widget.dart';
 
 class CalculatePage extends StatefulWidget {
   const CalculatePage({super.key});
@@ -41,40 +43,65 @@ class _CalculatePageState extends State<CalculatePage> {
           children: [
             Container(
               margin: const EdgeInsets.only(top: 20, right: 20),
-              child: IconButton(
-                onPressed: () {
-                  Provider.of<CalService>(context, listen: false)
-                      .setMode(CalModes.income);
-                },
-                icon: Icon(
-                  FontAwesomeIcons.moneyBill,
-                  color:
-                      Provider.of<CalService>(context).mode == CalModes.income
+              child: Column(
+                children: [
+                  IconButton(
+                    onPressed: () {
+                      Provider.of<CalService>(context, listen: false)
+                          .setMode(CalModes.income);
+                    },
+                    icon: Icon(
+                      FontAwesomeIcons.moneyBill,
+                      color: Provider.of<CalService>(context).mode ==
+                              CalModes.income
                           ? Colors.green
                           : Colors.grey,
-                  size: 50,
-                ),
+                      size: 50,
+                    ),
+                  ),
+                  Text(
+                    "Income",
+                    style:
+                        Provider.of<CalService>(context).mode == CalModes.income
+                            ? kPrimaryTextStyle
+                            : kSecondTextStyle,
+                  ),
+                ],
               ),
             ),
             Container(
               margin: const EdgeInsets.only(top: 20, left: 20),
-              child: IconButton(
-                onPressed: () {
-                  Provider.of<CalService>(context, listen: false)
-                      .setMode(CalModes.expense);
-                },
-                icon: Icon(
-                  FontAwesomeIcons.moneyCheckDollar,
-                  color:
-                      Provider.of<CalService>(context).mode == CalModes.expense
+              child: Column(
+                children: [
+                  IconButton(
+                    onPressed: () {
+                      Provider.of<CalService>(context, listen: false)
+                          .setMode(CalModes.expense);
+                    },
+                    icon: Icon(
+                      FontAwesomeIcons.moneyCheckDollar,
+                      color: Provider.of<CalService>(context).mode ==
+                              CalModes.expense
                           ? Colors.red
                           : Colors.grey,
-                  size: 50,
-                ),
+                      size: 50,
+                    ),
+                  ),
+                  Text(
+                    "Expense",
+                    style: Provider.of<CalService>(context).mode ==
+                            CalModes.expense
+                        ? kPrimaryTextStyle
+                        : kSecondTextStyle,
+                  ),
+                ],
               ),
             ),
           ],
         ),
+        Provider.of<CalService>(context).mode == CalModes.income
+            ? const IncomeTypeWidget()
+            : const ExpenseTypeWidget(),
         Padding(
           padding: const EdgeInsets.all(20),
           child: TextField(
@@ -366,28 +393,30 @@ class _CalculatePageState extends State<CalculatePage> {
                   ),
                   IconButton(
                     onPressed: () async {
-                      final bool result = await Provider.of<AccountingService>(
-                              context,
-                              listen: false)
-                          .addNewEvent(
-                        amount: Provider.of<CalService>(context, listen: false)
-                            .result,
-                        mode: Provider.of<CalService>(context, listen: false)
-                            .mode,
-                      );
-                      Provider.of<CalService>(context, listen: false).reset();
-                      Provider.of<AccountingService>(context, listen: false).reset();
-                      titleController.clear();
-
-                      if (result) {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(
-                              content: Text('Event created successfully')),
+                      try {
+                        await Provider.of<AccountingService>(context,
+                                listen: false)
+                            .addNewEvent(
+                          amount:
+                              Provider.of<CalService>(context, listen: false)
+                                  .result,
+                          mode: Provider.of<CalService>(context, listen: false)
+                              .mode,
                         );
-                      } else {
+                        Provider.of<CalService>(context, listen: false).reset();
+                        Provider.of<AccountingService>(context, listen: false)
+                            .reset();
+                        titleController.clear();
                         ScaffoldMessenger.of(context).showSnackBar(
                           const SnackBar(
-                              content: Text('Failed to create event')),
+                            content: Text('Event created successfully'),
+                          ),
+                        );
+                      } catch (e) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text(e.toString()),
+                          ),
                         );
                       }
                     },
@@ -406,3 +435,4 @@ class _CalculatePageState extends State<CalculatePage> {
     );
   }
 }
+

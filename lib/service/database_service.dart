@@ -1,3 +1,4 @@
+import 'package:account/constant.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:account/model/event_detail_model.dart';
 import 'package:path_provider/path_provider.dart';
@@ -33,7 +34,8 @@ class DatabaseService {
         id $idType,
         title $textType,
         amount $doubleType,
-        date $textType
+        date $textType,
+        type $textType
       )
     ''');
   }
@@ -64,6 +66,7 @@ class DatabaseService {
     for (var item in result) {
       events.add(
         EventDetailModel(
+          type: AccountingTypesExtension.fromString(item['type'] as String),
           title: item['title'] as String,
           amount: item['amount'] as double,
           date: DateTime.parse(item['date'] as String),

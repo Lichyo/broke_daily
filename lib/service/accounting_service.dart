@@ -8,35 +8,49 @@ import 'package:account/constant.dart';
 class AccountingService extends ChangeNotifier {
   final DatabaseService databaseService = DatabaseService.instance;
   String title = "";
+  AccountingTypes type = AccountingTypes.nil;
   DateTime _date = DateTime.now();
   List<EventDetailModel> events = [];
+
+  void setAccountingType(AccountingTypes type) {
+    this.type = type;
+    notifyListeners();
+  }
+
+  get accountType => type;
 
   List<ChartData> getChartData() {
     final monthlyExpense = getMonthlyExpense().abs();
     final monthlyIncome = getMonthlyIncome();
-
     return [
       ChartData('Expenses', monthlyExpense, Colors.red),
       ChartData('Income', monthlyIncome, Colors.green),
     ];
   }
 
-  Future<bool> addNewEvent({
+  Future<void> addNewEvent({
     required double amount,
     required CalModes mode,
-    String? type,
   }) async {
-    await databaseService.insert(
-      eventDetailModel: EventDetailModel(
-        title: title,
-        amount: mode == CalModes.income ? amount : -amount,
-        date: _date,
-        type: "None",
-      ),
-    );
-    await initAccountingService();
-    notifyListeners();
-    return true;
+    try {
+      inspectEventPara(amount: amount);
+    } catch (e) {
+      throw Exception(e);
+    }
+    try {
+      await databaseService.insert(
+        eventDetailModel: EventDetailModel(
+          title: title,
+          amount: mode == CalModes.income ? amount : -amount,
+          date: _date,
+          type: type,
+        ),
+      );
+      await initAccountingService();
+      notifyListeners();
+    } catch (e) {
+      throw Exception(e);
+    }
   }
 
   Future<void> initAccountingService() async {
@@ -127,5 +141,17 @@ class AccountingService extends ChangeNotifier {
     title = "";
     _date = DateTime.now();
     notifyListeners();
+  }
+
+  void inspectEventPara({required double amount}) {
+    if (title == "") {
+      throw Exception("Title is empty");
+    }
+    if (amount == 0) {
+      throw Exception("Amount is 0");
+    }
+    if (type == AccountingTypes.nil) {
+      throw Exception("Type is nil");
+    }
   }
 }

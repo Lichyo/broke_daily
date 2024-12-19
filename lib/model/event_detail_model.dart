@@ -1,12 +1,14 @@
+import 'package:account/constant.dart';
+
 class EventDetailModel {
   final String title;
   int? id;
   final double amount;
   final DateTime date;
-  final String? type;
+  final AccountingTypes type;
 
   EventDetailModel({
-    this.type,
+    required this.type,
     required this.title,
     this.id,
     required this.amount,
@@ -18,6 +20,7 @@ class EventDetailModel {
       'title': title,
       'amount': amount.toString(),
       'date': date.toString(),
+      'type': type.name,
     };
   }
 }
