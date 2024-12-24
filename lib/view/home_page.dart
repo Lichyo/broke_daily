@@ -58,6 +58,38 @@ class _HomePageState extends State<HomePage> {
       appBar: AppBar(
         centerTitle: true,
         title: const Text('Account'),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.settings),
+            onPressed: () {
+              showDialog(
+                context: context,
+                builder: (_) => AlertDialog(
+                  title: const Text('Settings'),
+                  content: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      TextButton(
+                        child: const Text('Reset Data'),
+                        onPressed: () async {
+                          setState(() {
+                            loading = true;
+                          });
+                          await Provider.of<AccountingService>(context, listen: false).resetDatabase();
+                          setState(() {
+                            loading = false;
+                          });
+                          Navigator.of(context).pop();
+                        },
+                      ),
+                    ],
+                  ),
+                ),
+              );
+            },
+          ),
+        ],
       ),
       body: loading
           ? const CircularProgressIndicator()

@@ -5,7 +5,6 @@ import 'package:account/service/accounting_service.dart';
 import 'package:provider/provider.dart';
 import '../model/event_detail_model.dart';
 
-
 class SearchPage extends StatefulWidget {
   const SearchPage({super.key});
 
@@ -51,6 +50,7 @@ class _SearchPageState extends State<SearchPage> {
           selector: (context, accountingService) =>
               accountingService.searchEvents(_searchQuery),
           builder: (context, filteredEvents, child) {
+            filteredEvents.sort((a, b) => b.date.compareTo(a.date));
             return Expanded(
               child: ListView.builder(
                 itemCount: filteredEvents.length,

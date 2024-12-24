@@ -176,7 +176,7 @@ class _CalculatePageState extends State<CalculatePage> {
                     icon: const Icon(
                       FontAwesomeIcons.seven,
                       color: Colors.grey,
-                      size: 50,
+                      // size: 50,
                     ),
                   ),
                   IconButton(
@@ -187,7 +187,7 @@ class _CalculatePageState extends State<CalculatePage> {
                     icon: const Icon(
                       FontAwesomeIcons.eight,
                       color: Colors.grey,
-                      size: 50,
+                      // size: 50,
                     ),
                   ),
                   IconButton(
@@ -198,7 +198,7 @@ class _CalculatePageState extends State<CalculatePage> {
                     icon: const Icon(
                       FontAwesomeIcons.nine,
                       color: Colors.grey,
-                      size: 50,
+                      // size: 50,
                     ),
                   ),
                   IconButton(
@@ -209,7 +209,7 @@ class _CalculatePageState extends State<CalculatePage> {
                     icon: const Icon(
                       FontAwesomeIcons.divide,
                       color: Colors.grey,
-                      size: 50,
+                      // size: 50,
                     ),
                   ),
                   IconButton(
@@ -219,7 +219,7 @@ class _CalculatePageState extends State<CalculatePage> {
                     icon: const Icon(
                       FontAwesomeIcons.broom,
                       color: Colors.red,
-                      size: 50,
+                      // size: 50,
                     ),
                   ),
                 ],
@@ -235,7 +235,7 @@ class _CalculatePageState extends State<CalculatePage> {
                     icon: const Icon(
                       FontAwesomeIcons.four,
                       color: Colors.grey,
-                      size: 50,
+                      // size: 50,
                     ),
                   ),
                   IconButton(
@@ -246,7 +246,7 @@ class _CalculatePageState extends State<CalculatePage> {
                     icon: const Icon(
                       FontAwesomeIcons.five,
                       color: Colors.grey,
-                      size: 50,
+                      // size: 50,
                     ),
                   ),
                   IconButton(
@@ -257,7 +257,7 @@ class _CalculatePageState extends State<CalculatePage> {
                     icon: const Icon(
                       FontAwesomeIcons.six,
                       color: Colors.grey,
-                      size: 50,
+                      // size: 50,
                     ),
                   ),
                   IconButton(
@@ -268,7 +268,7 @@ class _CalculatePageState extends State<CalculatePage> {
                     icon: const Icon(
                       FontAwesomeIcons.x,
                       color: Colors.grey,
-                      size: 50,
+                      // size: 50,
                     ),
                   ),
                   IconButton(
@@ -279,7 +279,7 @@ class _CalculatePageState extends State<CalculatePage> {
                     icon: const Icon(
                       FontAwesomeIcons.arrowLeft,
                       color: Colors.grey,
-                      size: 50,
+                      // size: 50,
                     ),
                   ),
                 ],
@@ -295,7 +295,7 @@ class _CalculatePageState extends State<CalculatePage> {
                     icon: const Icon(
                       FontAwesomeIcons.one,
                       color: Colors.grey,
-                      size: 50,
+                      // size: 50,
                     ),
                   ),
                   IconButton(
@@ -306,7 +306,7 @@ class _CalculatePageState extends State<CalculatePage> {
                     icon: const Icon(
                       FontAwesomeIcons.two,
                       color: Colors.grey,
-                      size: 50,
+                      // size: 50,
                     ),
                   ),
                   IconButton(
@@ -317,7 +317,7 @@ class _CalculatePageState extends State<CalculatePage> {
                     icon: const Icon(
                       FontAwesomeIcons.three,
                       color: Colors.grey,
-                      size: 50,
+                      // size: 50,
                     ),
                   ),
                   IconButton(
@@ -328,7 +328,7 @@ class _CalculatePageState extends State<CalculatePage> {
                     icon: const Icon(
                       FontAwesomeIcons.plus,
                       color: Colors.grey,
-                      size: 50,
+                      // size: 50,
                     ),
                   ),
                   IconButton(
@@ -339,7 +339,7 @@ class _CalculatePageState extends State<CalculatePage> {
                     icon: const Icon(
                       FontAwesomeIcons.equals,
                       color: Colors.grey,
-                      size: 50,
+                      // size: 50,
                     ),
                   ),
                 ],
@@ -352,19 +352,10 @@ class _CalculatePageState extends State<CalculatePage> {
                       Provider.of<CalService>(context, listen: false)
                           .setExpression("00");
                     },
-                    icon: const Row(
-                      children: [
-                        Icon(
-                          FontAwesomeIcons.zero,
-                          color: Colors.grey,
-                          size: 25,
-                        ),
-                        Icon(
-                          FontAwesomeIcons.zero,
-                          color: Colors.grey,
-                          size: 25,
-                        ),
-                      ],
+                    icon: const Icon(
+                      FontAwesomeIcons.creativeCommonsZero,
+                      color: Colors.grey,
+                      // size: 50,
                     ),
                   ),
                   IconButton(
@@ -375,7 +366,7 @@ class _CalculatePageState extends State<CalculatePage> {
                     icon: const Icon(
                       FontAwesomeIcons.zero,
                       color: Colors.grey,
-                      size: 50,
+                      // size: 50,
                     ),
                   ),
                   IconButton(
@@ -384,9 +375,9 @@ class _CalculatePageState extends State<CalculatePage> {
                           .setExpression(".");
                     },
                     icon: const Icon(
-                      FontAwesomeIcons.solidCircle,
+                      FontAwesomeIcons.dotCircle,
                       color: Colors.grey,
-                      size: 50,
+                      // size: 50,
                     ),
                   ),
                   IconButton(
@@ -397,18 +388,24 @@ class _CalculatePageState extends State<CalculatePage> {
                     icon: const Icon(
                       FontAwesomeIcons.minus,
                       color: Colors.grey,
-                      size: 50,
+                      // size: 50,
                     ),
                   ),
                   IconButton(
                     onPressed: () async {
                       try {
-                        await Provider.of<AccountingService>(context, listen: false) .addNewEvent(
-                          amount: Provider.of<CalService>(context, listen: false).result,
-                          mode: Provider.of<CalService>(context, listen: false).mode,
+                        await Provider.of<AccountingService>(context,
+                                listen: false)
+                            .addNewEvent(
+                          amount:
+                              Provider.of<CalService>(context, listen: false)
+                                  .result,
+                          mode: Provider.of<CalService>(context, listen: false)
+                              .mode,
                         );
                         Provider.of<CalService>(context, listen: false).reset();
-                        Provider.of<AccountingService>(context, listen: false) .reset();
+                        Provider.of<AccountingService>(context, listen: false)
+                            .reset();
                         titleController.clear();
                         ScaffoldMessenger.of(context).showSnackBar(
                           const SnackBar(
@@ -426,7 +423,7 @@ class _CalculatePageState extends State<CalculatePage> {
                     icon: const Icon(
                       FontAwesomeIcons.check,
                       color: Colors.grey,
-                      size: 50,
+                      // size: 50,
                     ),
                   ),
                 ],
