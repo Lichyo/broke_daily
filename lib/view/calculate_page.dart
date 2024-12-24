@@ -403,18 +403,12 @@ class _CalculatePageState extends State<CalculatePage> {
                   IconButton(
                     onPressed: () async {
                       try {
-                        await Provider.of<AccountingService>(context,
-                                listen: false)
-                            .addNewEvent(
-                          amount:
-                              Provider.of<CalService>(context, listen: false)
-                                  .result,
-                          mode: Provider.of<CalService>(context, listen: false)
-                              .mode,
+                        await Provider.of<AccountingService>(context, listen: false) .addNewEvent(
+                          amount: Provider.of<CalService>(context, listen: false).result,
+                          mode: Provider.of<CalService>(context, listen: false).mode,
                         );
                         Provider.of<CalService>(context, listen: false).reset();
-                        Provider.of<AccountingService>(context, listen: false)
-                            .reset();
+                        Provider.of<AccountingService>(context, listen: false) .reset();
                         titleController.clear();
                         ScaffoldMessenger.of(context).showSnackBar(
                           const SnackBar(

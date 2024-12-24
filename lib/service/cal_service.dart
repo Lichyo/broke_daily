@@ -38,6 +38,10 @@ class CalService extends ChangeNotifier {
 
   void setExpression(String result) {
     _expression.add(result);
+    try {
+      double val = double.parse(result);
+      _result = _result * 10 + val;
+    } catch (e) {}
     notifyListeners();
   }
 
