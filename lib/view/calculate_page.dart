@@ -106,8 +106,17 @@ class _CalculatePageState extends State<CalculatePage> {
           padding: const EdgeInsets.all(20),
           child: TextField(
             controller: titleController,
-            decoration: const InputDecoration(
-              hintText: 'Title',
+            decoration: InputDecoration(
+              labelText: 'Title',
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(16),
+              ),
+              suffixIcon: IconButton(
+                icon: const Icon(Icons.clear),
+                onPressed: () {
+                  titleController.clear();
+                },
+              ),
             ),
             onChanged: (text) {
               Provider.of<AccountingService>(context, listen: false)
@@ -435,4 +444,3 @@ class _CalculatePageState extends State<CalculatePage> {
     );
   }
 }
-

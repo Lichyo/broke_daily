@@ -60,7 +60,7 @@ class AccountListPage extends StatelessWidget {
             flex: 3,
             child: Selector<AccountingService, List<ChartData>>(
               selector: (context, accountingService) =>
-                  accountingService.getChartData(),
+                  accountingService.chartBalanceData,
               builder: (context, chartData, child) {
                 return Stack(
                   alignment: Alignment.center,

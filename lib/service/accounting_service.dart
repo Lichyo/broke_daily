@@ -19,13 +19,76 @@ class AccountingService extends ChangeNotifier {
 
   get accountType => type;
 
-  List<ChartData> getChartData() {
+  List<ChartData> get chartBalanceData {
     final monthlyExpense = getMonthlyExpense().abs();
     final monthlyIncome = getMonthlyIncome();
     return [
       ChartData('Expenses', monthlyExpense, Colors.red),
       ChartData('Income', monthlyIncome, Colors.green),
     ];
+  }
+
+  List<ChartData> get chartExpenseData {
+    Map<AccountingTypes, double> expenseMap = {
+      AccountingTypes.food: 0,
+      AccountingTypes.traffic: 0,
+      AccountingTypes.daily: 0,
+      AccountingTypes.drink: 0,
+      AccountingTypes.luxury: 0,
+    };
+    final events = getEventsThisMonth();
+    for (var event in events) {
+      if (event.amount < 0) {
+        expenseMap[event.type] = expenseMap[event.type]! + event.amount;
+      }
+    }
+    return [
+      ChartData(AccountingTypes.traffic.name,
+          expenseMap[AccountingTypes.traffic]!, Colors.green),
+      ChartData(AccountingTypes.drink.name, expenseMap[AccountingTypes.drink]!,
+          Colors.blue),
+      ChartData(AccountingTypes.food.name, expenseMap[AccountingTypes.food]!,
+          Colors.orange),
+      ChartData(AccountingTypes.daily.name, expenseMap[AccountingTypes.daily]!,
+          Colors.white),
+      ChartData(AccountingTypes.luxury.name,
+          expenseMap[AccountingTypes.luxury]!, Colors.yellow),
+    ];
+  }
+
+  List<ChartData> get chartIncomeData {
+    Map<AccountingTypes, double> incomeMap = {
+      AccountingTypes.salary: 0,
+      AccountingTypes.passive: 0,
+      AccountingTypes.stock: 0,
+    };
+    final events = getEventsThisMonth();
+    for (var event in events) {
+      if (event.amount > 0) {
+        incomeMap[event.type] = incomeMap[event.type]! + event.amount;
+      }
+    }
+    return [
+      ChartData(AccountingTypes.salary.name, incomeMap[AccountingTypes.salary]!,
+          Colors.yellow),
+      ChartData(AccountingTypes.passive.name,
+          incomeMap[AccountingTypes.passive]!, Colors.grey),
+      ChartData(AccountingTypes.stock.name, incomeMap[AccountingTypes.stock]!,
+          Colors.red),
+    ];
+  }
+
+  List<EventDetailModel> searchEvents(String query) {
+    if (query.isEmpty) {
+      return events;
+    }
+    return events.where((event) {
+      final titleLower = event.title.toLowerCase();
+      final typeLower = event.type.name.toLowerCase();
+      final searchLower = query.toLowerCase();
+      return titleLower.contains(searchLower) ||
+          typeLower.contains(searchLower);
+    }).toList();
   }
 
   Future<void> addNewEvent({

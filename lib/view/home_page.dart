@@ -3,7 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:account/view/account_list_page.dart';
-import 'package:account/view/analysis_page.dart';
+import 'package:account/view/search_page.dart';
 import 'package:account/view/calculate_page.dart';
 
 class HomePage extends StatefulWidget {
@@ -17,7 +17,7 @@ class _HomePageState extends State<HomePage> {
   int _currentIndex = 1;
   bool loading = true;
   final _pageList = [
-    const AnalysisPage(),
+    const SearchPage(),
     const AccountListPage(),
     CalculatePage(),
   ];
