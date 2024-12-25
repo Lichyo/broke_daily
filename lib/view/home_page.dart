@@ -1,3 +1,4 @@
+import 'package:account/constant.dart';
 import 'package:account/service/accounting_service.dart';
 import 'package:account/service/gemini_service.dart';
 import 'package:provider/provider.dart';
@@ -8,6 +9,7 @@ import 'package:account/view/search_page.dart';
 import 'package:account/view/calculate_page.dart';
 import 'package:speech_to_text/speech_to_text.dart';
 import 'package:speech_to_text/speech_recognition_result.dart';
+import 'package:account/service/cal_service.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -21,6 +23,8 @@ class _HomePageState extends State<HomePage> {
   bool loading = true;
   final SpeechToText _speechToText = SpeechToText();
   bool _speechEnabled = false;
+  Map<String, dynamic> result = {};
+
   String _lastWords = '';
   final _pageList = [
     const SearchPage(),
@@ -56,16 +60,76 @@ class _HomePageState extends State<HomePage> {
 
   void _stopListening() async {
     await _speechToText.stop();
-    setState(() {});
+    setState(() {
+      loading = true;
+    });
+    try {
+      result = await GeminiService.handleUserInput(_lastWords);
+      showDialog(
+        context: context,
+        builder: (_) => AlertDialog(
+          title: const Text('Confirm Data'),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text('項目： ${result['title']}', style: kSecondTextStyle),
+              Text('金額： ${result['amount']}', style: kSecondTextStyle),
+              Text('時間： ${result['datetime']}', style: kSecondTextStyle),
+              Text('種類： ${result['type']}', style: kSecondTextStyle),
+            ],
+          ),
+          actions: [
+            Row(
+              children: [
+                TextButton(
+                  child: const Text('Cancel'),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                ),
+                TextButton(
+                  child: const Text('Confirm'),
+                  onPressed: () async {
+                    Provider.of<AccountingService>(context, listen: false)
+                        .reset();
+                    Provider.of<AccountingService>(context, listen: false)
+                        .setAccountingType(
+                      AccountingTypesExtension.fromString(
+                        result['type'],
+                      ),
+                    );
+                    Provider.of<AccountingService>(context, listen: false)
+                        .setTitle(
+                      result['title'],
+                    );
+                    await Provider.of<AccountingService>(context, listen: false)
+                        .addNewEvent(
+                      amount: double.parse(result['amount'].toString()),
+                      mode: CalModesExtension.fromString(
+                        result['cal_mode'],
+                      ),
+                    );
+                    Provider.of<AccountingService>(context, listen: false).reset();
+                    Provider.of<CalService>(context, listen: false).reset();
+                    Navigator.of(context).pop();
+                  },
+                ),
+              ],
+            )
+          ],
+        ),
+      );
+    } catch (e) {
+      print(e);
+    }
+    setState(() {
+      loading = false;
+    });
   }
 
   void _onSpeechResult(SpeechRecognitionResult result) {
     _lastWords = result.recognizedWords;
-    try {
-      GeminiService.handleUserInput(_lastWords);
-    } catch (e) {
-      print(e);
-    }
   }
 
   @override
@@ -131,7 +195,7 @@ class _HomePageState extends State<HomePage> {
         ],
       ),
       body: loading
-          ? const CircularProgressIndicator()
+          ? const Center(child: CircularProgressIndicator())
           : _pageList[_currentIndex],
     );
   }

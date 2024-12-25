@@ -20,7 +20,7 @@ class AccountListPage extends StatelessWidget {
       child: Column(
         children: [
           BarcodeWidget(
-            height: 100,
+            height: 70,
             color: Colors.white,
             data: '/5ASUGA2',
             barcode: Barcode.code128(),
@@ -81,6 +81,8 @@ class AccountListPage extends StatelessWidget {
                       swapAnimationDuration: const Duration(milliseconds: 800),
                       swapAnimationCurve: Curves.easeInQuint,
                       PieChartData(
+                        sectionsSpace: 1,
+                        centerSpaceRadius: 70,
                         sections: chartData
                             .map(
                               (data) => PieChartSectionData(
