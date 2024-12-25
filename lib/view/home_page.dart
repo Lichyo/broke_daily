@@ -1,11 +1,13 @@
 import 'package:account/service/accounting_service.dart';
+import 'package:account/service/gemini_service.dart';
 import 'package:provider/provider.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:account/view/account_list_page.dart';
 import 'package:account/view/search_page.dart';
 import 'package:account/view/calculate_page.dart';
-import 'package:account/config.dart';
+import 'package:speech_to_text/speech_to_text.dart';
+import 'package:speech_to_text/speech_recognition_result.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -17,6 +19,9 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   int _currentIndex = 1;
   bool loading = true;
+  final SpeechToText _speechToText = SpeechToText();
+  bool _speechEnabled = false;
+  String _lastWords = '';
   final _pageList = [
     const SearchPage(),
     const AccountListPage(),
@@ -33,9 +38,34 @@ class _HomePageState extends State<HomePage> {
   Future<void> initTask() async {
     await Provider.of<AccountingService>(context, listen: false)
         .initAccountingService();
+    _initSpeech();
     setState(() {
       loading = false;
     });
+  }
+
+  void _initSpeech() async {
+    _speechEnabled = await _speechToText.initialize();
+    setState(() {});
+  }
+
+  void _startListening() async {
+    await _speechToText.listen(onResult: _onSpeechResult);
+    setState(() {});
+  }
+
+  void _stopListening() async {
+    await _speechToText.stop();
+    setState(() {});
+  }
+
+  void _onSpeechResult(SpeechRecognitionResult result) {
+    _lastWords = result.recognizedWords;
+    try {
+      GeminiService.handleUserInput(_lastWords);
+    } catch (e) {
+      print(e);
+    }
   }
 
   @override
@@ -55,6 +85,12 @@ class _HomePageState extends State<HomePage> {
             _currentIndex = index;
           });
         },
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed:
+            _speechToText.isNotListening ? _startListening : _stopListening,
+        tooltip: 'Listen',
+        child: Icon(_speechToText.isNotListening ? Icons.mic_off : Icons.mic),
       ),
       appBar: AppBar(
         centerTitle: true,
@@ -77,7 +113,9 @@ class _HomePageState extends State<HomePage> {
                           setState(() {
                             loading = true;
                           });
-                          await Provider.of<AccountingService>(context, listen: false).resetDatabase();
+                          await Provider.of<AccountingService>(context,
+                                  listen: false)
+                              .resetDatabase();
                           setState(() {
                             loading = false;
                           });

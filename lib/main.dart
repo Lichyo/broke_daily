@@ -8,9 +8,8 @@ import 'package:flutter_gemini/flutter_gemini.dart';
 
 void main() async {
   Gemini.init(apiKey: Config.geminiAPIKey);
-
-  // WidgetsFlutterBinding.ensureInitialized();
-  // runApp(const MyApp());
+  WidgetsFlutterBinding.ensureInitialized();
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {

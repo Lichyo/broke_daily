@@ -1,7 +1,6 @@
 import 'package:account/constant.dart';
 import 'package:flutter_gemini/flutter_gemini.dart';
 import 'dart:convert';
-import '../config.dart';
 
 class GeminiService {
   static Future<void> handleUserInput(String input) async {
@@ -11,7 +10,6 @@ class GeminiService {
     if (response != null && response.output != null) {
       final cleanedOutput =
           response.output!.replaceAll('```json', '').replaceAll('```', '');
-      // print(cleanedOutput);
       for (var item in jsonDecode(cleanedOutput)) {
         print(item);
       }
