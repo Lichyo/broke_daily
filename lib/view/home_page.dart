@@ -10,6 +10,7 @@ import 'package:account/view/calculate_page.dart';
 import 'package:speech_to_text/speech_to_text.dart';
 import 'package:speech_to_text/speech_recognition_result.dart';
 import 'package:account/service/cal_service.dart';
+import 'package:intl/intl.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -75,7 +76,9 @@ class _HomePageState extends State<HomePage> {
             children: [
               Text('項目： ${result['title']}', style: kSecondTextStyle),
               Text('金額： ${result['amount']}', style: kSecondTextStyle),
-              Text('時間： ${result['datetime']}', style: kSecondTextStyle),
+              Text(
+                  '時間： ${DateFormat('yyyy/MM/dd').format(DateTime.parse(result['datetime']))}',
+                  style: kSecondTextStyle),
               Text('種類： ${result['type']}', style: kSecondTextStyle),
             ],
           ),
@@ -103,6 +106,10 @@ class _HomePageState extends State<HomePage> {
                         .setTitle(
                       result['title'],
                     );
+                    Provider.of<AccountingService>(context, listen: false)
+                        .setDate(
+                      DateTime.parse(result['datetime']),
+                    );
                     await Provider.of<AccountingService>(context, listen: false)
                         .addNewEvent(
                       amount: double.parse(result['amount'].toString()),
@@ -110,7 +117,8 @@ class _HomePageState extends State<HomePage> {
                         result['cal_mode'],
                       ),
                     );
-                    Provider.of<AccountingService>(context, listen: false).reset();
+                    Provider.of<AccountingService>(context, listen: false)
+                        .reset();
                     Provider.of<CalService>(context, listen: false).reset();
                     Navigator.of(context).pop();
                   },

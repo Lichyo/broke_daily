@@ -14,8 +14,8 @@ class GeminiService {
           response.output!.replaceAll('```json', '').replaceAll('```', '');
       result = jsonDecode(cleanData);
       print(cleanData);
-      result['datetime'] =
-          DateFormat('yyyy/MM/dd').format(DateTime.parse(result['datetime']));
+      // result['datetime'] =
+      //     DateFormat('yyyy/MM/dd').format(DateTime.parse(result['datetime']));
       print(result);
     } else {
       print('No output received from Gemini API');
@@ -25,7 +25,7 @@ class GeminiService {
 
   static String responseFormat() =>
       '回傳成{ amount: 價格, title: 品項, datetime: ${dataTimeFormat()} , type: 從${types()} 裡面挑, cal_mode: 從${calModes()} 裡面挑 }的格式'
-      '，不用回傳其他訊息，只限一次一筆資料，所以不用包成 List';
+      '，不用回傳其他訊息，只限一次一筆資料，所以不用包成 List。就算你抓不到值，也要把 Map 回傳，只是值是空的。';
 
   static List<String> types() {
     List<String> types = [];
