@@ -20,6 +20,9 @@ dependencies:
   expressions: ^0.2.5+2
   sqflite: ^2.4.1
   flutter_launcher_icons: ^0.14.2
+  barcode_widget: ^2.0.4
+  flutter_gemini: ^3.0.0
+  speech_to_text: ^7.0.0
 
 flutter_icons:
   android: true

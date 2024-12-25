@@ -6,6 +6,7 @@ import '../constant.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:intl/intl.dart';
 import '../model/chart_model.dart';
+import 'package:barcode_widget/barcode_widget.dart';
 
 class AccountListPage extends StatelessWidget {
   const AccountListPage({
@@ -18,6 +19,12 @@ class AccountListPage extends StatelessWidget {
       padding: const EdgeInsets.all(16),
       child: Column(
         children: [
+          BarcodeWidget(
+            height: 70,
+            color: Colors.white,
+            data: '/5ASUGA2',
+            barcode: Barcode.code128(),
+          ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -55,9 +62,9 @@ class AccountListPage extends StatelessWidget {
               ),
             ],
           ),
-          const Gap(30),
+          const Gap(10),
           Expanded(
-            flex: 3,
+            flex: 2,
             child: Selector<AccountingService, List<ChartData>>(
               selector: (context, accountingService) =>
                   accountingService.chartBalanceData,
@@ -74,6 +81,8 @@ class AccountListPage extends StatelessWidget {
                       swapAnimationDuration: const Duration(milliseconds: 800),
                       swapAnimationCurve: Curves.easeInQuint,
                       PieChartData(
+                        sectionsSpace: 1,
+                        centerSpaceRadius: 70,
                         sections: chartData
                             .map(
                               (data) => PieChartSectionData(
@@ -130,7 +139,10 @@ class AccountListPage extends StatelessWidget {
                                   context: context,
                                   builder: (BuildContext context) {
                                     return AlertDialog(
-                                      title: Text(event.title, style: kPrimaryTextStyle,),
+                                      title: Text(
+                                        event.title,
+                                        style: kPrimaryTextStyle,
+                                      ),
                                       content: Column(
                                         mainAxisSize: MainAxisSize.min,
                                         mainAxisAlignment:

@@ -76,4 +76,9 @@ class DatabaseService {
     }
     return events;
   }
+
+  Future<void> reset() async {
+    final db = await instance.database;
+    await db.delete('events');
+  }
 }

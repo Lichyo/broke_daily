@@ -3,19 +3,19 @@ import 'package:google_fonts/google_fonts.dart';
 
 final kPrimaryTextStyle = GoogleFonts.getFont(
   'Montserrat',
-  fontSize: 23,
+  fontSize: 20,
   fontWeight: FontWeight.bold,
 );
 
 final kSecondTextStyle = GoogleFonts.getFont(
   'Montserrat',
-  fontSize: 21,
+  fontSize: 18,
   fontWeight: FontWeight.bold,
 );
 
 final kThirdTextStyle = GoogleFonts.getFont(
   'Montserrat',
-  fontSize: 19,
+  fontSize: 17,
   fontWeight: FontWeight.bold,
 );
 
@@ -54,6 +54,19 @@ extension AccountingTypesExtension on AccountingTypes {
         return AccountingTypes.passive;
       default:
         return AccountingTypes.nil;
+    }
+  }
+}
+
+extension CalModesExtension on CalModes {
+  static CalModes fromString(String type) {
+    switch (type) {
+      case 'income':
+        return CalModes.income;
+      case 'expense':
+        return CalModes.expense;
+      default:
+        return CalModes.expense;
     }
   }
 }

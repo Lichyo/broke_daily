@@ -217,4 +217,14 @@ class AccountingService extends ChangeNotifier {
       throw Exception("Type is nil");
     }
   }
+
+  Future<void> resetDatabase() async {
+    try {
+      await databaseService.reset();
+      initAccountingService();
+      notifyListeners();
+    } catch (e) {
+      throw Exception(e);
+    }
+  }
 }
