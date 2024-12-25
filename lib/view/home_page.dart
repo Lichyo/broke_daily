@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:account/view/account_list_page.dart';
 import 'package:account/view/search_page.dart';
 import 'package:account/view/calculate_page.dart';
+import 'package:account/config.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -19,7 +20,7 @@ class _HomePageState extends State<HomePage> {
   final _pageList = [
     const SearchPage(),
     const AccountListPage(),
-    CalculatePage(),
+    const CalculatePage(),
   ];
 
   @override
