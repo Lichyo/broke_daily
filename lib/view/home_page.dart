@@ -1,6 +1,8 @@
 import 'package:account/constant.dart';
 import 'package:account/service/accounting_service.dart';
 import 'package:account/service/gemini_service.dart';
+import 'package:account/service/invoice_service.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
@@ -25,6 +27,7 @@ class _HomePageState extends State<HomePage> {
   final SpeechToText _speechToText = SpeechToText();
   bool _speechEnabled = false;
   Map<String, dynamic> result = {};
+  final invoiceTextController = TextEditingController();
 
   String _lastWords = '';
   final _pageList = [
@@ -158,47 +161,89 @@ class _HomePageState extends State<HomePage> {
           });
         },
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed:
-            _speechToText.isNotListening ? _startListening : _stopListening,
-        tooltip: 'Listen',
-        child: Icon(_speechToText.isNotListening ? Icons.mic_off : Icons.mic),
+      floatingActionButton: Visibility(
+        visible: _currentIndex != 2,
+        child: FloatingActionButton(
+          onPressed:
+              _speechToText.isNotListening ? _startListening : _stopListening,
+          tooltip: 'Listen',
+          child: Icon(_speechToText.isNotListening ? Icons.mic_off : Icons.mic),
+        ),
       ),
       appBar: AppBar(
         centerTitle: true,
         title: const Text('Account'),
         actions: [
           IconButton(
-            icon: const Icon(Icons.settings),
+            icon: const Icon(FontAwesomeIcons.refresh),
+            onPressed: () async {
+              setState(() {
+                loading = true;
+              });
+              await Provider.of<AccountingService>(context, listen: false)
+                  .resetDatabase();
+              setState(() {
+                loading = false;
+              });
+              Navigator.of(context).pop();
+            },
+          ),
+          IconButton(
             onPressed: () {
               showDialog(
                 context: context,
                 builder: (_) => AlertDialog(
-                  title: const Text('Settings'),
+                  title: const Text('Invoice Number'),
                   content: Column(
                     mainAxisSize: MainAxisSize.min,
-                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      TextButton(
-                        child: const Text('Reset Data'),
-                        onPressed: () async {
-                          setState(() {
-                            loading = true;
-                          });
-                          await Provider.of<AccountingService>(context,
-                                  listen: false)
-                              .resetDatabase();
-                          setState(() {
-                            loading = false;
-                          });
-                          Navigator.of(context).pop();
-                        },
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: TextField(
+                          controller: invoiceTextController,
+                          decoration: InputDecoration(
+                            labelText: 'Enter your Invoice #',
+                            labelStyle: kThirdTextStyle,
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(16),
+                            ),
+                            suffixIcon: IconButton(
+                              icon: const Icon(Icons.clear),
+                              onPressed: () {
+                                setState(() {
+                                  invoiceTextController.clear();
+                                });
+                              },
+                            ),
+                          ),
+                        ),
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          TextButton(
+                            child: const Text('Cancel'),
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                            },
+                          ),
+                          TextButton(
+                            child: const Text('Confirm'),
+                            onPressed: () async {
+                              await InvoiceService().saveInvoiceNumber(
+                                  invoiceTextController.text);
+                              Navigator.of(context).pop();
+                            },
+                          ),
+                        ],
                       ),
                     ],
                   ),
                 ),
               );
             },
+            icon: const Icon(FontAwesomeIcons.fileInvoice),
           ),
         ],
       ),

@@ -7,11 +7,32 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:intl/intl.dart';
 import '../model/chart_model.dart';
 import 'package:barcode_widget/barcode_widget.dart';
+import 'package:account/service/invoice_service.dart';
 
-class AccountListPage extends StatelessWidget {
+class AccountListPage extends StatefulWidget {
   const AccountListPage({
     super.key,
   });
+
+  @override
+  State<AccountListPage> createState() => _AccountListPageState();
+}
+
+class _AccountListPageState extends State<AccountListPage> {
+  InvoiceService invoiceService = InvoiceService();
+  String? invoiceNumber;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    initTask();
+  }
+
+  Future<void> initTask() async {
+    invoiceNumber = await invoiceService.getInvoiceNumber();
+    setState(() {});
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -19,11 +40,14 @@ class AccountListPage extends StatelessWidget {
       padding: const EdgeInsets.all(16),
       child: Column(
         children: [
-          BarcodeWidget(
-            height: 70,
-            color: Colors.white,
-            data: '/5ASUGA2',
-            barcode: Barcode.code128(),
+          Visibility(
+            visible: invoiceNumber != null,
+            child: BarcodeWidget(
+              height: 70,
+              color: Colors.white,
+              data: invoiceNumber ?? "",
+              barcode: Barcode.code128(),
+            ),
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,

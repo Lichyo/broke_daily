@@ -350,7 +350,9 @@ class _CalculatePageState extends State<CalculatePage> {
                   IconButton(
                     onPressed: () {
                       Provider.of<CalService>(context, listen: false)
-                          .setExpression("00");
+                          .setExpression("0");
+                      Provider.of<CalService>(context, listen: false)
+                          .setExpression("0");
                     },
                     icon: const Icon(
                       FontAwesomeIcons.creativeCommonsZero,
