@@ -1,4 +1,4 @@
-# broke_daily
+# broke_diary
 
 A new Flutter project.
 
